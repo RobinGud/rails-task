@@ -4,18 +4,21 @@
 <%= form_with model: @parcel do |form| %>
     <%# <%= form.label :weigth, "Search for:" %>
     <p>Откуда</p>
-    <%= form.text_field :from_city %>
-    <%= form.select :city_id, City.all.collect { |p| p.name } %>
+    <%# <%= form.text_field :from_city %>
+    <%= form.select :from_city_name, City.all.collect { |p| p.name } %>
     <p>Куда</p>
-    <%= form.text_field :to_city %>
-    <%= form.select :city_id, City.all.collect { |p| p.name } %>
+    <%# <%= form.text_field :to_city %>
+    <%= form.select :from_city_name, City.all.collect { |p| p.name } %>
+        <h3>Distance<%= @distance %></h3>
     <p>Длина х Ширина х Высота</p>
-    <%= form.number_field :length %>
-    <%= form.number_field :width %>
-    <%= form.number_field :hiegth %>
+    <%= form.number_field :length, step: 0.1, min: 0.1 %>
+    <%= form.number_field :width, step: 0.1, min: 0.1 %>
+    <%= form.number_field :hiegth, step: 0.1, min: 0.1 %> М
     <p>Объем</p> 
-    <%= form.number_field :volume %>
+    <%= form.number_field :volume, step: 0.1, min: 0.1 %> Мˆ3
     <p>Вес</p> 
-    <%= form.number_field :weigth %>
+    <%= form.number_field :weigth, step: 0.1, min: 0.1 %> КГ
     <%= form.submit %>
+
+    <h2>Cost<%= @result %></h2>
 <% end %>
