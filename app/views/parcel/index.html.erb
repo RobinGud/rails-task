@@ -1,2 +1,21 @@
 <h1>Parcel#index</h1>
 <p>Find me in app/views/parcel/index.html.erb</p>
+
+<%= form_with model: @parcel do |form| %>
+    <%# <%= form.label :weigth, "Search for:" %>
+    <p>Откуда</p>
+    <%= form.text_field :from_city %>
+    <%= form.select :city_id, City.all.collect { |p| p.name } %>
+    <p>Куда</p>
+    <%= form.text_field :to_city %>
+    <%= form.select :city_id, City.all.collect { |p| p.name } %>
+    <p>Длина х Ширина х Высота</p>
+    <%= form.number_field :length %>
+    <%= form.number_field :width %>
+    <%= form.number_field :hiegth %>
+    <p>Объем</p> 
+    <%= form.number_field :volume %>
+    <p>Вес</p> 
+    <%= form.number_field :weigth %>
+    <%= form.submit %>
+<% end %>
