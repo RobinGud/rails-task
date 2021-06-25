@@ -3,20 +3,18 @@
 
 <%= form_with do |form| %>
     <p>Откуда</p>
-    <%= form.collection_select :from_city_id, @cities, :id, :name %>
+    <%= form.collection_select :from_city_id, @cities, :id, :name, {:include_blank => 'Выберите город'}, {:onchange => "getDistance()"} %>
     <p>Куда</p>
-    <%= form.collection_select :to_city_id, @cities, :id, :name %>
-        <h3>Distance<%= @distance %></h3>
+    <%= form.collection_select :to_city_id, @cities, :id, :name, {:include_blank => 'Выберите город'}, {:onchange => "getDistance()"} %>
+        <h3>Расстояние: <span id="distance_value"></span></h3>
     <p>Длина х Ширина х Высота</p>
     <%= form.number_field :length, step: 0.1, min: 0.1, value: 0.1, onchange:"sizeHandler()" %>
     <%= form.number_field :width, step: 0.1, min: 0.1, value: 0.1, onchange:"sizeHandler()" %>
     <%= form.number_field :hiegth, step: 0.1, min: 0.1, value: 0.1, onchange:"sizeHandler()" %> М
     <p>Объем</p> 
-    <%= form.number_field :volume, step: 0.01, value: 0.01, min: 0.01 %> Мˆ3
+    <%= form.number_field :volume, step: 0.01, value: 0.01, min: 0.01, onchange:"getPrice()" %> Мˆ3
     <p>Вес</p> 
-    <%= form.number_field :weigth, step: 0.1, value: 0.1, min: 0.1 %> КГ
-    <h2>Cost<%= @result %></h2>
+    <%= form.number_field :weight, step: 0.1, value: 0.1, min: 0.1, onchange:"getPrice()" %> КГ
+<h2>Цена: <span id="price_value"></span></h2>
     <%= form.submit %>
 <% end %>
-
-<h2>Cost<%= @result %></h2>

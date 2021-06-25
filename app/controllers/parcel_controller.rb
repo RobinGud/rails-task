@@ -22,11 +22,19 @@ class ParcelController < ApplicationController
     # render :index
   end
 
+  def check
+    @from_city = City.find(params[:from_id])
+    @to_city = City.find(params[:to_id])
+    @distance = getDistance
+    render :json => {:distance => @distance}
+  end
+
   private
     def getDistance
       require 'uri'
       require 'net/http'
       require 'openssl'
+      require 'json'
       
       url = URI("https://wft-geo-db.p.rapidapi.com/v1/geo/cities/" + @from_city.wikidata_id.to_s + "/distance?&distanceUnit=KM&toCityId=" + @to_city.wikidata_id.to_s)
 
@@ -40,6 +48,7 @@ class ParcelController < ApplicationController
       request["x-rapidapi-host"] = 'wft-geo-db.p.rapidapi.com'
       
       response = http.request(request)
-      return response.read_body.to_f
+      body = JSON.parse(response.read_body, {:symbolize_names => true})
+      return body[:data]
     end
 end
