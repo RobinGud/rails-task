@@ -4,8 +4,9 @@ class ParcelController < ApplicationController
   end
 
   def new
-    @from_city = City.find(params[:from_city_id])
-    @to_city = City.find(params[:to_city_id])
+    @temp = City.find([params[:from_city_id], params[:to_city_id]])
+    @from_city = @temp[0]
+    @to_city = @temp[1]
     @distance = getDistance
     @volume = params[:volume].to_f
     @weight = params[:weight].to_f
@@ -19,14 +20,14 @@ class ParcelController < ApplicationController
   end
 
   def check
-    @from_city = City.find(params[:from_id])
-    @to_city = City.find(params[:to_id])
+    @temp = City.find([params[:from_city_id], params[:to_city_id]])
+    @from_city = @temp[0]
+    @to_city = @temp[1]
     @distance = getDistance
     render :json => {:distance => @distance}
   end
 
   def success
-
   end
 
   private

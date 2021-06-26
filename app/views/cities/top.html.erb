@@ -1,0 +1,19 @@
+<h2>Топ городов по отправлению</h2>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Count</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% @cities.each do |city| %>
+        <tr>
+            <td><%= city["id"] %><td>
+                <td><%= city["name"] %><td>
+                <td><%= city["count"] %><td>
+        <% end %>
+        </tr>
+    </tbody>
+</table>

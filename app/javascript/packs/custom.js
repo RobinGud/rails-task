@@ -37,6 +37,6 @@ window.getPrice = () => {
     const price = (500 + (distance * (volume + weight))).toFixed(2)
 
     if (distance) {
-        document.getElementById("price_value").innerHTML = `${price} $`
+        document.getElementById("price_value").innerHTML = `${price} ₽`
     }
 }

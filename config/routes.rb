@@ -5,4 +5,6 @@ Rails.application.routes.draw do
   get "/", to:"parcel#index"
   post "/",  to:"parcel#new"
   get "distance", to:"parcel#check"
+
+  get "top", to:"cities#top"
 end
