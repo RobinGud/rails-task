@@ -12,11 +12,14 @@ class ParcelController < ApplicationController
     @result = 500 + (@distance * (@volume + @weight))
     logger.info (@distance)
     @parcel = Parcel.new(volume: @volume, weight: @weight, price: @price, from_city_id: @from_city.id, to_city_id: @to_city.id)
-    if @parcel.save
-      redirect_to root_path
-    else
-      # render :index
-    end
+    # if @parcel.save
+      # redirect_to root_path
+      # render :success
+    # else
+      # render :index 
+      render file: "#{Rails.root}/public/520.html" , status: 520
+      # ...
+    # end
     # logger.info ("log" + @price.to_s)
     # redirect_to root_path
     # render :index
@@ -27,6 +30,10 @@ class ParcelController < ApplicationController
     @to_city = City.find(params[:to_id])
     @distance = getDistance
     render :json => {:distance => @distance}
+  end
+
+  def success
+
   end
 
   private

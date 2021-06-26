@@ -6,7 +6,7 @@
     <%= form.collection_select :from_city_id, @cities, :id, :name, {:include_blank => 'Выберите город'}, {:onchange => "getDistance()"} %>
     <p>Куда</p>
     <%= form.collection_select :to_city_id, @cities, :id, :name, {:include_blank => 'Выберите город'}, {:onchange => "getDistance()"} %>
-        <h3>Расстояние: <span id="distance_value"></span></h3>
+    <h3>Расстояние: <span id="distance_value"></span></h3>
     <p>Длина х Ширина х Высота</p>
     <%= form.number_field :length, step: 0.1, min: 0.1, value: 0.1, onchange:"sizeHandler()" %>
     <%= form.number_field :width, step: 0.1, min: 0.1, value: 0.1, onchange:"sizeHandler()" %>
@@ -15,6 +15,6 @@
     <%= form.number_field :volume, step: 0.01, value: 0.01, min: 0.01, onchange:"getPrice()" %> Мˆ3
     <p>Вес</p> 
     <%= form.number_field :weight, step: 0.1, value: 0.1, min: 0.1, onchange:"getPrice()" %> КГ
-<h2>Цена: <span id="price_value"></span></h2>
+    <h2>Цена: <span id="price_value"></span></h2>
     <%= form.submit %>
 <% end %>
