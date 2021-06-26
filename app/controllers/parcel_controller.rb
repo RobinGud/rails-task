@@ -10,19 +10,12 @@ class ParcelController < ApplicationController
     @volume = params[:volume].to_f
     @weight = params[:weight].to_f
     @result = 500 + (@distance * (@volume + @weight))
-    logger.info (@distance)
     @parcel = Parcel.new(volume: @volume, weight: @weight, price: @price, from_city_id: @from_city.id, to_city_id: @to_city.id)
-    # if @parcel.save
-      # redirect_to root_path
-      # render :success
-    # else
-      # render :index 
+    if @parcel.save
+      render :success
+    else
       render file: "#{Rails.root}/public/520.html" , status: 520
-      # ...
-    # end
-    # logger.info ("log" + @price.to_s)
-    # redirect_to root_path
-    # render :index
+    end
   end
 
   def check
@@ -37,25 +30,23 @@ class ParcelController < ApplicationController
   end
 
   private
-    def getDistance
-      require 'uri'
-      require 'net/http'
-      require 'openssl'
-      require 'json'
-      
-      url = URI("https://wft-geo-db.p.rapidapi.com/v1/geo/cities/" + @from_city.wikidata_id.to_s + "/distance?&distanceUnit=KM&toCityId=" + @to_city.wikidata_id.to_s)
-
-      logger.info(url)
-      http = Net::HTTP.new(url.host, url.port)
-      http.use_ssl = true
-      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-      
-      request = Net::HTTP::Get.new(url)
-      request["x-rapidapi-key"] = '27a229d50amshc288ac68912ac5cp1c4b53jsna5581f50c2d9'
-      request["x-rapidapi-host"] = 'wft-geo-db.p.rapidapi.com'
-      
-      response = http.request(request)
-      body = JSON.parse(response.read_body, {:symbolize_names => true})
-      return body[:data]
-    end
+  def getDistance
+    require 'uri'
+    require 'net/http'
+    require 'openssl'
+    require 'json'
+    
+    url = URI("https://router.hereapi.com/v8/routes?apiKey=lcr86qj5kE6ZDEGPKjb0vKPrik74odt4ifCNvdCvQvo&transportMode=car&origin=" + @from_city.lat.to_s + "," + @from_city.lon.to_s + "&destination=" + @to_city.lat.to_s + "," + @to_city.lon.to_s + "&return=summary")
+    logger.info(url)
+    http = Net::HTTP.new(url.host, url.port)
+    http.use_ssl = true
+    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+    
+    request = Net::HTTP::Get.new(url)
+    
+    response = http.request(request)
+    body = JSON.parse(response.read_body, {:symbolize_names => true})
+    length = body[:routes][0][:sections][0][:summary][:length]
+    return length / 1000
+  end
 end
