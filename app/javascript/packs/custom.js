@@ -8,8 +8,8 @@ window.sizeHandler = () => {
 }
 
 window.getDistance = () => {
-    const from_id = document.getElementById("parcel_from_city_id").value
-    const to_id = document.getElementById("parcel_to_city_id").value
+    const from_id = document.getElementById("from_city_id").value
+    const to_id = document.getElementById("to_city_id").value
 
     if (from_id && to_id && from_id != to_id) {
         const url = `${window.location.href}distance/?from_city_id=${from_id}&to_city_id=${to_id}`
@@ -31,8 +31,8 @@ window.getDistance = () => {
 
 window.getPrice = () => {
     const distance = parseFloat(document.getElementById("distance_value").innerHTML)
-    const volume = parseFloat(document.getElementById("parcel_volume").value)
-    const weight = parseFloat(document.getElementById("parcel_weight").value)
+    const volume = parseFloat(document.getElementById("volume").value)
+    const weight = parseFloat(document.getElementById("weight").value)
 
     const price = (500 + (distance * (volume + weight))).toFixed(2)
 

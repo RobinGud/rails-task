@@ -1,7 +1,8 @@
 class Parcel < ApplicationRecord
-    validates :volume, :weight, :price, :from_city_id, :to_city_id, presence: true
+    validates :volume, :weight, :price, :distance_id, presence: true
+    
 
-    belongs_to :from_city, class_name: "City", foreign_key: :from_city_id
-    belongs_to :to_city, class_name: "City", foreign_key: :to_city_id
+    belongs_to :distance
+    has_one :city, through: :distance
 
 end

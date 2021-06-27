@@ -4,12 +4,13 @@ class ParcelController < ApplicationController
 
   def new
     @cities = City.all.collect
-    @parcel = Parcel.new
   end
   
   def create
-    @temp = City.find([params[:parcel][:from_city_id], params[:parcel][:to_city_id]]) # Костыль
-    @parcel = Parcel.new({"price" => getPrice}.merge(parcel_params))
+    @from_city_id = params[:from_city_id]
+    @to_city_id = params[:to_city_id]
+    @distance = getDistance
+    @parcel = Parcel.new({price: getPrice}.merge({distance_id: @distance[:id]}).merge(parcel_params))
     if @parcel.save
       render :success
     else
@@ -19,8 +20,9 @@ class ParcelController < ApplicationController
   
 
   def check
-    @temp = City.find([params[:from_city_id], params[:to_city_id]]) # Костыль
-    render :json => {:distance => getDistance}
+    @from_city_id = params[:from_city_id]
+    @to_city_id = params[:to_city_id]
+    render :json => {:distance => getDistance[:distance]}
   end
 
   def success
@@ -29,10 +31,21 @@ class ParcelController < ApplicationController
 
   private
   def getDistance
+    d = Distance.find_by(:from_city_id => @from_city_id, :to_city_id => @from_city_id)
+    if (d.nil?) 
+      d = Distance.create(:distance => addDistance, :from_city_id => @from_city_id, :to_city_id => @from_city_id)
+    end
+    return d
+  end
+
+  private
+  def addDistance
     require 'uri'
     require 'net/http'
     require 'openssl'
     require 'json'
+
+    @temp = City.find([@from_city_id, @to_city_id])
 
     @from_city = @temp[0]
     @to_city = @temp[1]
@@ -52,11 +65,11 @@ class ParcelController < ApplicationController
 
   private
   def getPrice
-    return 500 + (getDistance * (params[:volume].to_f + params[:weight].to_f))
+    return 500 + (@distance[:distance].to_f * (params[:volume].to_f + params[:weight].to_f))
   end
 
   private
   def parcel_params
-    params.require(:parcel).permit(:volume, :weight, :price, :from_city_id, :to_city_id)
+    params.permit(:volume, :weight)
   end
 end

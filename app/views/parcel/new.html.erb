@@ -1,6 +1,6 @@
 <h1 style="margin-top:25px; margin-bottom:15px">Отправить груз</h1>
 
-<%= form_for Parcel.new,:url => {:action => :create, :controller => :parcel} do |form| %>
+<%= form_with url: "/parcel" do |form| %>
     <div class="form-floating mb-3">
         <%= form.collection_select :from_city_id, @cities, :id, :name, {:include_blank => true}, {:onchange => "getDistance()",  class: 'form-select'} %>
         <label for="floatingSelect"> Откуда</label>

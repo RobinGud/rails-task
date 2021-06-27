@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_24_225924) do
+ActiveRecord::Schema.define(version: 2021_06_27_183013) do
 
   create_table "cities", force: :cascade do |t|
     t.string "name"
@@ -21,16 +21,24 @@ ActiveRecord::Schema.define(version: 2021_06_24_225924) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "parcels", force: :cascade do |t|
-    t.float "volume"
-    t.float "weight"
-    t.float "price"
+  create_table "distances", force: :cascade do |t|
+    t.float "distance"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "from_city_id"
     t.integer "to_city_id"
   end
 
-  add_foreign_key "parcels", "cities", column: "from_city_id"
-  add_foreign_key "parcels", "cities", column: "to_city_id"
+  create_table "parcels", force: :cascade do |t|
+    t.float "volume"
+    t.float "weight"
+    t.float "price"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "distance_id"
+  end
+
+  add_foreign_key "distances", "cities", column: "from_city_id"
+  add_foreign_key "distances", "cities", column: "to_city_id"
+  add_foreign_key "parcels", "distances"
 end
