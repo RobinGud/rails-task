@@ -12,7 +12,7 @@ window.getDistance = () => {
     const to_id = document.getElementById("to_city_id").value
 
     if (from_id && to_id && from_id != to_id) {
-        const url = `${window.location.href}distance/?from_id=${from_id}&to_id=${to_id}`
+        const url = `${window.location.href}distance/?from_city_id=${from_id}&to_city_id=${to_id}`
         fetch(url, {
             "method": "GET"
         })

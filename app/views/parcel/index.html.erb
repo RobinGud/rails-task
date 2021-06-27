@@ -1,20 +1,46 @@
-<h1>Parcel#index</h1>
-<p>Find me in app/views/parcel/index.html.erb</p>
+<h1>Отправить груз</h1>
 
 <%= form_with do |form| %>
-    <p>Откуда</p>
-    <%= form.collection_select :from_city_id, @cities, :id, :name, {:include_blank => 'Выберите город'}, {:onchange => "getDistance()"} %>
-    <p>Куда</p>
-    <%= form.collection_select :to_city_id, @cities, :id, :name, {:include_blank => 'Выберите город'}, {:onchange => "getDistance()"} %>
-    <h3>Расстояние: <span id="distance_value"></span></h3>
-    <p>Длина х Ширина х Высота</p>
-    <%= form.number_field :length, step: 0.1, min: 0.1, value: 0.1, onchange:"sizeHandler()" %>
-    <%= form.number_field :width, step: 0.1, min: 0.1, value: 0.1, onchange:"sizeHandler()" %>
-    <%= form.number_field :hiegth, step: 0.1, min: 0.1, value: 0.1, onchange:"sizeHandler()" %> М
-    <p>Объем</p> 
-    <%= form.number_field :volume, step: 0.01, value: 0.01, min: 0.01, onchange:"getPrice()" %> Мˆ3
-    <p>Вес</p> 
-    <%= form.number_field :weight, step: 0.1, value: 0.1, min: 0.1, onchange:"getPrice()" %> КГ
-    <h2>Цена: <span id="price_value"></span></h2>
-    <%= form.submit %>
+    <div class="form-floating mb-3">
+        <%= form.collection_select :from_city_id, @cities, :id, :name, {:include_blank => true}, {:onchange => "getDistance()",  class: 'form-select'} %>
+        <label for="floatingSelect"> Откуда</label>
+    </div>
+    <div class="form-floating mb-3">
+        <%= form.collection_select :to_city_id, @cities, :id, :name, {:include_blank => true}, {:onchange => "getDistance()", class: 'form-select'} %>
+        <label for="floatingSelect"> Куда</label>
+    </div>
+    <h4>Расстояние: <span id="distance_value"></span></h4>
+    <div class="input-group mb-3 input-group-lg">
+    <label class="col-form-label-lg col">Длина</label>
+    <label class="col-form-label-lg col">Ширина</label>
+    <label class="col-form-label-lg col">Высота</label>
+    </div>
+    <div class="input-group mb-3 input-group-lg">
+        <%= form.number_field :length, step: 0.1, min: 0.1, value: 0.1, onchange:"sizeHandler()", class: 'form-control' %>
+        <span class="input-group-text">М</span>
+        <%= form.number_field :width, step: 0.1, min: 0.1, value: 0.1, onchange:"sizeHandler()", class: 'form-control' %>
+        <span class="input-group-text">М</span>
+        <%= form.number_field :hiegth, step: 0.1, min: 0.1, value: 0.1, onchange:"sizeHandler()", class: 'form-control' %> 
+        <span class="input-group-text">М</span>
+    </div>
+    <div class="row">
+    <div class="col">
+    <label class="form-label col-form-label-lg">Объем</label>
+    <div class="input-group mb-3 input-group-lg">
+        <%= form.number_field :volume, step: 0.01, value: 0.01, min: 0.01, onchange:"getPrice()", class: 'form-control' %>
+        <span class="input-group-text">М³</span>
+    </div>
+    </div>
+        <div class="col">
+    <label class="form-label col-form-label-lg">Вес</label> 
+    <div class="input-group mb-3 input-group-lg">
+        <%= form.number_field :weight, step: 0.1, value: 0.1, min: 0.1, onchange:"getPrice()", class: 'form-control' %>
+        <span class="input-group-text">КГ</span>
+    </div>
+    </div>
+    <h3>Цена: <span id="price_value"></span></h3>
+    <div class="input-group mb-3 input-group-lg">
+    <%= form.submit "Заказать", :class => "btn btn-primary mb-3"%>
+    </div>
+    </div>
 <% end %>
