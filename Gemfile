@@ -59,3 +59,5 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem "unirest", "~> 1.0"
 
 gem "json", "~> 2.5"
+
+gem "dotenv-rails", "~> 2.7"

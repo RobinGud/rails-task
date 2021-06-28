@@ -4,17 +4,23 @@ class ParcelController < ApplicationController
 
   def new
     @cities = City.all.collect
+    @parcel = Parcel.new
   end
   
   def create
     @from_city_id = params[:from_city_id]
     @to_city_id = params[:to_city_id]
-    @distance = getDistance
-    @parcel = Parcel.new({price: getPrice}.merge({distance_id: @distance[:id]}).merge(parcel_params))
-    if @parcel.save
-      render :success
-    else
+    logger.info(@from_city_id.length)
+    if @from_city_id == "" || @to_city_id == ""
       render file: "#{Rails.root}/public/520.html" , status: 520
+    else
+      @distance = getDistance
+      @parcel = Parcel.new({price: getPrice}.merge({distance_id: @distance[:id]}).merge(parcel_params))
+      if @parcel.save
+        render :success
+      else
+        render file: "#{Rails.root}/public/520.html" , status: 520
+      end
     end
   end
   
@@ -31,7 +37,7 @@ class ParcelController < ApplicationController
 
   private
   def getDistance
-    d = Distance.find_by(:from_city_id => @from_city_id, :to_city_id => @from_city_id)
+    d = Distance.find_by(:from_city_id => @from_city_id, :to_city_id => @to_city_id)
     if (d.nil?) 
       d = Distance.create(:distance => addDistance, :from_city_id => @from_city_id, :to_city_id => @from_city_id)
     end
@@ -45,12 +51,22 @@ class ParcelController < ApplicationController
     require 'openssl'
     require 'json'
 
-    @temp = City.find([@from_city_id, @to_city_id])
+    @temp = City.find(@from_city_id, @to_city_id)
 
     @from_city = @temp[0]
     @to_city = @temp[1]
     
-    url = URI("https://router.hereapi.com/v8/routes?apiKey=lcr86qj5kE6ZDEGPKjb0vKPrik74odt4ifCNvdCvQvo&transportMode=car&origin=" + @from_city.lat.to_s + "," + @from_city.lon.to_s + "&destination=" + @to_city.lat.to_s + "," + @to_city.lon.to_s + "&return=summary")
+    url = URI("https://router.hereapi.com/v8/routes?apiKey=" + 
+      ENV['API_KEY'] + 
+      "&transportMode=car&origin=" + 
+      @from_city.lat.to_s + "," + 
+      @from_city.lon.to_s + 
+      "&destination=" + 
+      @to_city.lat.to_s + 
+      "," + 
+      @to_city.lon.to_s + 
+      "&return=summary")
+
     http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = true
     http.verify_mode = OpenSSL::SSL::VERIFY_NONE
