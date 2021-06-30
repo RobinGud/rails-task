@@ -1,0 +1,23 @@
+<h1>Топ городов по отправлению</h1>
+<table class="table table-striped table-hover">
+    <thead class="">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Count</th>
+            <th>AVG weight (kg)</th>
+            <th>Max volume (М³)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% @cities.each do |city| %>
+        <tr>
+            <td><%= city["id"] %></td>
+            <td><%= city["name"] %></td>
+            <td><%= city["count"] %></td>
+            <td><%= city["avg_weight"].round(2) %></td>
+            <td><%= city["max_volume"].round(2) %></td>
+        <% end %>
+        </tr>
+    </tbody>
+</table>
