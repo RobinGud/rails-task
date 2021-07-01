@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 2021_06_27_183013) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "cities", force: :cascade do |t|
     t.string "name"
     t.string "wikidata_id"
@@ -25,8 +28,8 @@ ActiveRecord::Schema.define(version: 2021_06_27_183013) do
     t.float "distance"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "from_city_id"
-    t.integer "to_city_id"
+    t.bigint "from_city_id"
+    t.bigint "to_city_id"
   end
 
   create_table "parcels", force: :cascade do |t|
@@ -35,7 +38,7 @@ ActiveRecord::Schema.define(version: 2021_06_27_183013) do
     t.float "price"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "distance_id"
+    t.bigint "distance_id"
   end
 
   add_foreign_key "distances", "cities", column: "from_city_id"
