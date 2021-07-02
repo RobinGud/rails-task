@@ -18,8 +18,12 @@ class ParcelController < ApplicationController
       INNER JOIN cities AS city_to
         ON city_to.id = distances.to_city_id
     "
-    @cities = ActiveRecord::Base.connection.execute(sql).to_a
-    logger.info(@cities)
+    @parcels = ActiveRecord::Base.connection.execute(sql).to_a
+    logger.info(@parcels)
+  end
+
+  def show
+    @parcel = Parcel.find(params[:id])
   end
 
   def new
@@ -49,6 +53,11 @@ class ParcelController < ApplicationController
     @from_city_id = params[:from_city_id]
     @to_city_id = params[:to_city_id]
     render :json => {:distance => getDistance[:distance]}
+  end
+
+  def destroy
+    Parcel.destroy(params[:id])
+    redirect_to root_path
   end
 
   def success

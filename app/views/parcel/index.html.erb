@@ -3,26 +3,33 @@
     <thead class="">
         <tr>
             <th>ID</th>
+            <th>From</th>
+            <th>To</th>
             <th>Volume</th>
             <th>Weight</th>
             <th>Price</th>
             <th>Created_at</th>
             <th>Distance</th>
-            <th>From</th>
-            <th>To</th>
+            <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
-        <% @cities.each do |city| %>
+        <% @parcels.each do |parcel| %>
         <tr>
-            <td><%= city["id"] %></td>
-            <td><%= city["volume"] %></td>
-            <td><%= city["weight"] %></td>
-            <td><%= city["price"] %></td>
-            <td><%= city["created_at"] %></td>
-            <td><%= city["distance"] %></td>
-            <td><%= city["from_name"] %></td>
-            <td><%= city["to_name"] %></td>
+            <td><%= parcel["id"] %></td>
+            <td><%= parcel["from_name"] %></td>
+            <td><%= parcel["to_name"] %></td>
+            <td><%= parcel["volume"] %></td>
+            <td><%= parcel["weight"] %></td>
+            <td><%= parcel["price"] %></td>
+            <td><%= parcel["created_at"] %></td>
+            <td><%= parcel["distance"] %></td>
+            <td><%= link_to 'Show', parcel_path(parcel["id"]),
+                class:"btn btn-primary" %></td>
+            <td><%= link_to 'Delete', parcel_path(parcel["id"]), 
+                method: :delete, data: { confirm: 'Are you sure?' }, 
+                class: "btn btn-danger" %></td>
         <% end %>
         </tr>
     </tbody>
