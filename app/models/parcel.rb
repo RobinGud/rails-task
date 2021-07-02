@@ -4,6 +4,7 @@ class Parcel < ApplicationRecord
 
 
     belongs_to :distance
-    has_one :city, through: :distance
+    has_many :city, through: :distance, :foreign_key => :from_city_id
+    has_many :city, through: :distance, :foreign_key => :to_city_id
 
 end

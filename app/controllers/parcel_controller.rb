@@ -1,7 +1,25 @@
 class ParcelController < ApplicationController
   def index
-    # @parcel = Parcel.joins(:distance).select('parcels.id', 'parcels.price', 'distance.from_city_id')
-    # logger.info(@parcel)
+    sql = "
+    SELECT
+      parcels.id AS id,
+      parcels.volume AS volume,
+      parcels.weight AS weight,
+      parcels.price AS price,
+      parcels.created_at AS created_at,
+      distances.distance AS distance,
+      city_from.name AS from_name,
+      city_to.name AS to_name
+    FROM parcels
+      INNER JOIN distances
+        ON parcels.distance_id = distances.id
+      INNER JOIN cities AS city_from
+        ON city_from.id = distances.from_city_id
+      INNER JOIN cities AS city_to
+        ON city_to.id = distances.to_city_id
+    "
+    @cities = ActiveRecord::Base.connection.execute(sql).to_a
+    logger.info(@cities)
   end
 
   def new
@@ -41,7 +59,7 @@ class ParcelController < ApplicationController
   def getDistance
     d = Distance.find_by(:from_city_id => @from_city_id, :to_city_id => @to_city_id)
     if (d.nil?) 
-      d = Distance.create(:distance => addDistance, :from_city_id => @from_city_id, :to_city_id => @from_city_id)
+      d = Distance.create(:distance => addDistance, :from_city_id => @from_city_id, :to_city_id => @to_city_id)
     end
     return d
   end
