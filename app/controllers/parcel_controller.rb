@@ -1,5 +1,7 @@
 class ParcelController < ApplicationController
   def index
+    # @parcel = Parcel.joins(:distance).select('parcels.id', 'parcels.price', 'distance.from_city_id')
+    # logger.info(@parcel)
   end
 
   def new
