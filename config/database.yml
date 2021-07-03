@@ -24,19 +24,39 @@
 #   <<: *default
 #   database: db/production.sqlite3
 
-development:
+# development:
+#   adapter: postgresql
+#   database: my_database_development
+#   pool: 5
+#   timeout: 5000
+# test:
+#   adapter: postgresql
+#   database: my_database_test
+#   pool: 5
+#   timeout: 5000
+
+# production:
+#   adapter: postgresql
+#   database: my_database_production
+#   pool: 5
+#   timeout: 5000
+
+default: &default
   adapter: postgresql
-  database: my_database_development
-  pool: 5
-  timeout: 5000
-test:
-  adapter: postgresql
-  database: my_database_test
-  pool: 5
+  encoding: unicode
+  database: <%= ENV['DATABASE_NAME'] %>
+  username: app
+  password: <%= ENV['DATABASE_PASSWORD'] %>
+  port: <%= ENV['DATABASE_PORT'] || '5432' %>
+  host: <%= ENV['DATABASE_HOST'] %>
+  pool: <%= ENV.fetch("MAX_THREADS") { 5 } %>
   timeout: 5000
 
+development:
+  <<: *default
+
+test:
+  <<: *default
+
 production:
-  adapter: postgresql
-  database: my_database_production
-  pool: 5
-  timeout: 5000
+  <<: *default
