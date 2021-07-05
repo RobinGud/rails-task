@@ -7,4 +7,6 @@ Rails.application.routes.draw do
   get "distance", to:"parcel#check"
 
   get "top", to:"cities#top"
+
+  get "summury", to:"parcel#summury"
 end

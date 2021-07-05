@@ -19,7 +19,6 @@ class ParcelController < ApplicationController
         ON city_to.id = distances.to_city_id
     "
     @parcels = ActiveRecord::Base.connection.execute(sql).to_a
-    logger.info(@parcels)
   end
 
   def show
@@ -62,6 +61,18 @@ class ParcelController < ApplicationController
 
   def success
 
+  end
+
+  def summury
+    sql = "
+    SELECT
+    DATE(created_at),
+    COUNT(id)
+    FROM parcels
+    GROUP BY DATE(created_at)
+    "
+    @parcels = ActiveRecord::Base.connection.execute(sql).to_a
+    logger.info(@parcels)
   end
 
   private

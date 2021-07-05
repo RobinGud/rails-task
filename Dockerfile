@@ -9,8 +9,6 @@ RUN npm install --global yarn
 RUN bundle update --bundler
 RUN bundle install
 RUN yarn
-RUN rake db:create 
-RUN rails db:seed
 RUN rails webpacker:install
 ADD . /myapp
 EXPOSE 3000

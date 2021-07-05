@@ -1,0 +1,17 @@
+<h1>SUMMURY</h1>
+<table class="table table-striped table-hover">
+    <thead class="">
+        <tr>
+            <th>Date</th>
+            <th>Count</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% @parcels.each do |parcel| %>
+        <tr>
+            <td><%= parcel["date"] %></td>
+            <td><%= parcel["count"] %></td>
+        <% end %>
+        </tr>
+    </tbody>
+</table>
